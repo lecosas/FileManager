@@ -16,6 +16,14 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        performSelector(inBackground: #selector(openFiles), with: nil)
+        
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(shareApp))
+    }
+
+    @objc func openFiles() {
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
@@ -27,12 +35,8 @@ class ViewController: UITableViewController {
         }
         
         pictures.sort()
-        
-        title = "Storm Viewer"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(shareApp))
     }
-
+        
     @objc func shareApp() {
         let vc = UIActivityViewController(activityItems: ["FlagGame"], applicationActivities: [])
         vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
